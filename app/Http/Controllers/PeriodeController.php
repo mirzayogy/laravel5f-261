@@ -12,7 +12,9 @@ class PeriodeController extends Controller
      */
     public function index()
     {
-        //
+        $semua_periode = Periode::all();
+
+        return view('periode.index', compact('semua_periode'));
     }
 
     /**
@@ -20,7 +22,7 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        //
+        return view('periode.create');
     }
 
     /**
@@ -28,7 +30,21 @@ class PeriodeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'periode' => ['required', 'string', 'max:50'],
+            'singkatan' => ['required', 'string', 'max:10', 'unique:periode,singkatan'],
+        ], [
+            'periode.required' => 'Nama periode wajib diisi.',
+            'singkatan.required' => 'Singkatan wajib diisi.',
+            'singkatan.unique' => 'Singkatan sudah dipakai periode lain.',
+        ]);
+
+        $data['status'] = $request->boolean('status');
+
+        Periode::create($data);
+
+        return redirect()->route('periode.index')
+            ->with('success', 'Periode berhasil ditambahkan.');
     }
 
     /**
@@ -44,7 +60,7 @@ class PeriodeController extends Controller
      */
     public function edit(Periode $periode)
     {
-        //
+        return view('periode.edit', compact('periode'));
     }
 
     /**
@@ -52,7 +68,21 @@ class PeriodeController extends Controller
      */
     public function update(Request $request, Periode $periode)
     {
-        //
+        $data = $request->validate([
+            'periode' => ['required', 'string', 'max:50'],
+            'singkatan' => ['required', 'string', 'max:10', 'unique:periode,singkatan,' . $periode->id],
+        ], [
+            'periode.required' => 'Nama periode wajib diisi.',
+            'singkatan.required' => 'Singkatan wajib diisi.',
+            'singkatan.unique' => 'Singkatan sudah dipakai periode lain.',
+        ]);
+
+        $data['status'] = $request->boolean('status');
+
+        $periode->update($data);
+
+        return redirect()->route('periode.index')
+            ->with('success', 'Periode berhasil diubah.');
     }
 
     /**
@@ -60,6 +90,9 @@ class PeriodeController extends Controller
      */
     public function destroy(Periode $periode)
     {
-        //
+        $periode->delete();
+
+        return redirect()->route('periode.index')
+            ->with('success', 'Periode berhasil dihapus.');
     }
 }

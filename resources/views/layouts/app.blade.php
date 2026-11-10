@@ -10,7 +10,11 @@
         @include('layouts.components.sidebar')
         <!--begin::App Main-->
         <main class="app-main">
-            @yield('breadcrumb')
+            <div class="app-content-header">
+                <div class="container-fluid">
+                    @yield('breadcrumb')
+                </div>
+            </div>
             <!--begin::App Content-->
             <div class="app-content">
                 <!--begin::Container-->
