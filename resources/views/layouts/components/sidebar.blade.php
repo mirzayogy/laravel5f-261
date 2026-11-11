@@ -22,7 +22,7 @@
             <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" data-accordion="false" id="navigation">
                 <li class="nav-item">
-                    <a href="/" class="nav-link active">
+                    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>
                     </a>
@@ -55,7 +55,7 @@
                         <li class="nav-item">
                             <a href="{{ route('periode.index') }}"
                                 class="nav-link {{ request()->routeIs('periode.*') ? 'active' : '' }}">
-                                <i class="nav-icon bi bi-calendar3"></i>
+                                <i class="nav-icon bi bi-circle"></i>
                                 <p>Periode</p>
                             </a>
                         </li>
